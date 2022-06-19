@@ -9,7 +9,7 @@ import pyautogui
 import cv2
 from PIL import ImageGrab
 import numpy as np
-
+import random
 
 os.system("cls")
 
@@ -29,6 +29,8 @@ except:
     print("[!] Error: No API key found!")
     with open('apikey.txt','w+') as f:
         print("[+] Creating API-Key file...")
+        print("[+] Done!")
+        print('[!] Please enter your API key:')
         apikey = input("Enter your API key: ")
         f.write(apikey)
         apikey = str(apikey)
@@ -344,6 +346,7 @@ while True:
             while True:
                 event, values = igorWindow.read()
                 if event == '-START-':
+                    igorWindow.close()
                     print("Starting 'Igor' Fishing Bot.")
                     time.sleep(0.5)
                     
@@ -355,10 +358,10 @@ while True:
                         print("Initializing PyAutoGUI... Done!")
                     def take_capture(magnification):
                         mx, my = pyautogui.position()  
-                        x = mx - 15  
-                        y = my - 15
+                        x = mx - 5  
+                        y = my - 5
                         capture = ImageGrab.grab(
-                            bbox=(x, y, x + 30, y + 30)
+                            bbox=(x, y, x + 20, y + 20)
                         )  
                         arr = np.array(capture)
                         res = cv2.cvtColor(
@@ -392,9 +395,13 @@ while True:
                         initializePyAutoGUI()
                         time.sleep(5)  
                         i = 0
-                        while i < 100:
+                        while i < 1000:
                             autofish(0.01, 0, 5)
+                            print(f"Found someting! Fisehd {i} items so far. Continuing...")
                             i += 1
                     main()
                 elif event == '-STOP-' or event == sg.WIN_CLOSED:
                     break
+                elif event == '-INFO-':
+                    print(f"Igor Fishing Bot v0.2")
+                    print(f"Aby łowić za pomocą sztucznej inteligencji, program musi wykrywać spławik.\nWyłącz FullScreena aby widziec okno OpenCV \nMINECRAFT MUSI BYĆ WIDOCZNY NA EKRANIE")
